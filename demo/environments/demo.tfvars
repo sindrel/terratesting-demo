@@ -1,3 +1,3 @@
 project       = "ent-app-jzdemo-dev"
-bucket_name   = "jzdemo"
-bucket_suffix = "orange"
+bucket_name   = "flying-cars"
+bucket_suffix = "dev"

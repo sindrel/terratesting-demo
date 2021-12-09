@@ -21,7 +21,7 @@ var uniqueID = strings.ToLower(random.UniqueId())
 
 // go test -count=1 -timeout 30s -run ^TestPass$ -p 1
 func TestPass(t *testing.T) {
-	module := "modules/static_page"
+	module := "modules/flying_cars"
 
 	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
 	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/index.html", expectedBucketName)
@@ -81,7 +81,7 @@ func TestPass(t *testing.T) {
 
 // go test -count=1 -timeout 30s -run ^TestFail$ -p 1
 func TestFail(t *testing.T) {
-	module := "modules/static_page"
+	module := "modules/flying_cars"
 
 	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
 	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/index.html", expectedBucketName)

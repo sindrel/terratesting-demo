@@ -36,7 +36,7 @@ resource "google_storage_bucket_object" "index" {
 
   name          = "index.html"
   cache_control = "public, max-age=60"
-  content       = "<h1>JavaZone 2021 is a(n) ${random_pet.favorite.id}</h1>"
+  content       = "<h1>Flying cars are cooler than ${random_pet.favorite.id}s</h1>"
   
   depends_on = [
     google_storage_default_object_acl.public_access

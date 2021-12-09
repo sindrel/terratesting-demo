@@ -19,7 +19,8 @@ var bucketName = "jzdemo"
 var project = os.Getenv("GOOGLE_PROJECT")
 var uniqueID = strings.ToLower(random.UniqueId())
 
-func TestStaticPageModule(t *testing.T) {
+// go test -count=1 -timeout 30s -run ^TestPass$ -p 1
+func TestPass(t *testing.T) {
 	module := "modules/static_page"
 
 	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
@@ -71,9 +72,46 @@ func TestStaticPageModule(t *testing.T) {
 
 	outputContent := terraform.Output(t, terraformOptions, "page_content")
 
-	maxRetries := 30
-	timeBetweenRetries := 5 * time.Second
+	maxRetries := 2
+	timeBetweenRetries := 2 * time.Second
 	tlsConfig := tls.Config{}
 
-	http_helper.HttpGetWithRetry(t, outputURL, &tlsConfig, 200, outputContent, maxRetries, timeBetweenRetries)
+	http_helper.HttpGetWithRetry(t, expectedURL, &tlsConfig, 200, outputContent, maxRetries, timeBetweenRetries)
+}
+
+// go test -count=1 -timeout 30s -run ^TestFail$ -p 1
+func TestFail(t *testing.T) {
+	module := "modules/static_page"
+
+	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
+	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/index.html", expectedBucketName)
+
+	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+		TerraformDir: module,
+		NoColor:      false,
+		Vars: map[string]interface{}{
+			"project":       project,
+			"bucket_name":   bucketName,
+			"bucket_suffix": uniqueID,
+		},
+	})
+
+	defer terraform.Destroy(t, terraformOptions)
+
+	terraform.Init(t, terraformOptions)
+	terraform.WorkspaceSelectOrNew(t, terraformOptions, "terratest")
+	terraform.Apply(t, terraformOptions)
+
+	/*
+	* The following assertion test will fail as the body returned from
+	* the HTTP request won't match what's in outputContent.
+	 */
+
+	outputContent := "I like pizza"
+
+	maxRetries := 2
+	timeBetweenRetries := 2 * time.Second
+	tlsConfig := tls.Config{}
+
+	http_helper.HttpGetWithRetry(t, expectedURL, &tlsConfig, 200, outputContent, maxRetries, timeBetweenRetries)
 }

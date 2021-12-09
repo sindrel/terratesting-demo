@@ -48,6 +48,6 @@ override.tf.json
 
 # Repo specific
 demo_prereqs/
-modules/**/versions.tf
+**/modules/**/versions.tf
 backend.tf
 rover*

@@ -24,7 +24,7 @@ func TestPass(t *testing.T) {
 	module := "modules/flying_cars"
 
 	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
-	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/index.html", expectedBucketName)
+	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/health.html", expectedBucketName)
 
 	files.CopyFile("versions.tf", module+"/versions.tf") // Include the root module versions file
 
@@ -84,7 +84,7 @@ func TestFail(t *testing.T) {
 	module := "modules/flying_cars"
 
 	expectedBucketName := fmt.Sprintf("%s-%s", bucketName, uniqueID)
-	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/index.html", expectedBucketName)
+	expectedURL := fmt.Sprintf("https://storage.googleapis.com/%s/health.html", expectedBucketName)
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: module,

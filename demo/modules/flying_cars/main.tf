@@ -6,8 +6,8 @@ resource "google_storage_bucket" "flying_cars" {
   force_destroy = true
 
   website {
-    main_page_suffix = "index.html"
-    not_found_page   = "index.html"
+    main_page_suffix = "health.html"
+    not_found_page   = "health.html"
   }
 
   cors {
@@ -34,7 +34,7 @@ resource "random_pet" "favorite" {
 resource "google_storage_bucket_object" "index" {
   bucket        = google_storage_bucket.flying_cars.name
 
-  name          = "index.html"
+  name          = "health.html"
   cache_control = "public, max-age=60"
   content       = "<h1>Autonomous flying car transport successfully ordered by a ${random_pet.favorite.id}.</h1>"
   

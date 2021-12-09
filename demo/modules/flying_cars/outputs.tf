@@ -3,7 +3,7 @@ output "bucket_name" {
 }
 
 output "page_url" {
-    value = "https://storage.googleapis.com/${google_storage_bucket.flying_cars.name}/index.html"
+    value = "https://storage.googleapis.com/${google_storage_bucket.flying_cars.name}/health.html"
 }
 
 output "page_content" {
